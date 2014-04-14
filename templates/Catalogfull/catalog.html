@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="shortcut icon" href="../../docs-assets/ico/favicon.png">
+
+    <title>Starter Template for Bootstrap</title>
+
+    <!-- Bootstrap core CSS -->
+	{% load staticfiles %}
+    <link href="{% static "bootstrap.css" %}" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+	{% load staticfiles %}
+    <link href="{% static "starter-template.css" %}" rel="stylesheet">
+
+    <!-- Just for debugging purposes. Don't actually copy this line! -->
+    <!--[if lt IE 9]><script src="../../docs-assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">Project name</a>
+        </div>
+        <div class="collapse navbar-collapse">
+          <ul class="nav navbar-nav">
+            <li class="active"><a href="../../">Главная</a></li>
+            <li><a href="../../registration">Регистрация</a></li>
+            <li><a href="../../login">Вход</a></li>
+			<li><form class="form-signin" action="../../login" method = "POST">
+        
+        <input type="text" class="form-control" placeholder="Логин/e-mail" required autofocus name="username" value="" id="username">{% csrf_token %} </li>
+		
+     <li>   <input type="password" class="form-control" placeholder="Пароль" required name = "password" id = "password" value =""> {% csrf_token %} </li>
+        
+          
+        
+     <li>   <button class="btn btn-primary btn-block" type="submit" value = "login">Вход</button> </li>
+	<li>	<input type = "hidden" name="next" value="{{ next|escape }}" /> </li>
+      </form> 
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+
+    <div class="container">
+
+      <!--<div class="starter-template">-->
+
+<br /><br />
+          <div class="row">
+              <div class="col-md-3">
+                  <div class="panel panel-primary">
+                      <div class="panel-heading">
+                          <h3 class="panel-title">Panel title</h3>
+                      </div>
+					  <form action ="." method = post>
+                      <div class="panel-body">				
+<p> </p>					  
+                          <select class="form-control" name = "manufacturer">
+                            <option value = "0">Производитель</option>
+                              {% for m in sel3 %}
+							  <option value = "{{ m.manufacturer}}"> {{ m.manufacturer }} </option>
+							  {% endfor %}
+                          </select>
+<p> </p>
+                         <select class="form-control" name = "repl_time"> 
+                              <option value = "0">Срок замены</option>
+                              {% for n in sel2 %}
+							  <option value = "{{ n.replacment_time }}"> {{ n.replacment_time }} </option>
+							  {% endfor %}
+                          </select>
+			<p> </p>			  
+						  <select class="form-control" name = "m_o_w" >
+                              <option value = "0">Режим ношения</option>
+                              {% for n in sel6 %}
+							  <option value = "{{ n.mode_of_wearing }}"> {{ n.mode_of_wearing }} </option>
+							  {% endfor %}
+                          </select>
+						<p> </p>
+						  <select class="form-control" name = "opt_power" >
+                              <option value = "0">Оптическая сила</option>
+                              {% for n in sel6 %}
+							  <option value = "{{ n.optical_power }}"> {{ n.optical_power }} </option>
+							  {% endfor %}
+                          </select>
+						  <p> </p>
+						  <select class="form-control" name = "radius" >
+                              <option value = "0">Радиус кривизны</option>
+                              {% for n in sel6 %}
+							  <option value = "{{ n.radius_of_cutvature }}"> {{ n.radius_of_cutvature }} </option>
+							  {% endfor %}
+                          </select>
+                    		<p> </p>				
+                          <select class="form-control" name = "opt_power_cil">
+                              <option value = "0">Оптическая сила цилиндра</option>
+                              {% for n in sel5 %}
+							  <option value = "{{ n.optical_power_cylinder }}"> {{ n.optical_power_cylinder }} </option>
+							  {% endfor %}
+                          </select>
+							<p> </p>	
+						  
+						  <select class="form-control" name = "axis">
+                              <option value = "0">Ось</option>
+                              
+                          </select>
+						  <p> </p>
+						  <select class="form-control" name = "addidation">
+                              <option value = "0">Аддидация</option>
+                              
+                          </select>
+							<p> </p>
+						<input type = "submit" value = "Показать" name = "show">
+						<input type = "reset"  value = "Очистить" name = "cleaner">
+                      </div>
+					  </form>
+                  </div>
+
+              </div>
+			  
+              <div class="col-md-8">
+			  {% for p in product_lensess.select_related.all %}
+			  <div class="row">
+        <div class="col-md-4"><img src="{{ p.img.url}}" alt="Упс, что-то пошло не так" height="200" width="200" border = 0></div>
+        <div class="col-md-3" align = "center"><a href="detail/{{ p.fk_product.slug }}"> {{ p.fk_product.product_name }} </a>
+                  <p> {{ p.fk_product.comment }}</p></div>
+        <div class="col-md-3" align = "center"><b>{{ p.fk_product.price }} </b> <p> <button type="button" class="btn btn-success">Купить</button> </p></div>
+		
+      </div>
+			<br> </br>
+				
+				{% endfor %}
+              </div>
+          </div>
+
+      <!--</div> -->
+
+    </div><!-- /.container -->
+
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+    <script src="../../dist/js/bootstrap.min.js"></script>
+  </body>
+</html>
